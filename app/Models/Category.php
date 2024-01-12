@@ -33,7 +33,7 @@ class Category extends Model
         return DB::update('UPDATE '.$this->table.' SET name=?, created_at=? WHERE id = ?',$data);
     }
     public function deleteCategory($id){
-
+        
         return DB::delete('DELETE FROM '.$this->table.' WHERE id = ?',[$id]);
     }
 }

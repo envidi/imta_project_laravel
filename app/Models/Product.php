@@ -17,6 +17,11 @@ class Product extends Model
         
         return $products;
     }
+    public function getAllProductsByCate($id){
+        $products = DB::table($this->table)->where('category_id',$id)->get();
+        
+        return $products;
+    }
     public function addProduct($data){
         DB::insert('INSERT INTO products (name , price , description , category_id , created_at) values ( ?, ?, ? ,?, ? )',$data);
     }

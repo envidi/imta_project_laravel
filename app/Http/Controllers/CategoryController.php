@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
     //private $products;
     private $categories;
+    private $products;
     public function __construct() {
         $this->categories = new Category();
+        $this->products = new Product();
     }
     public function index(Request $request)
     {   
@@ -80,8 +83,9 @@ class CategoryController extends Controller
         
         if(!empty($id)){
             $categoryDetail = $this->categories->getOneCategory($id);
+            $existProductHasCate = $this->products->getAllProductsByCate($id)->count();
             
-            if(!empty($categoryDetail[0])){
+            if(!empty($categoryDetail[0]) && $existProductHasCate === 0){
                 $categoryDeleted = $this->categories->deleteCategory($id);
                 if($categoryDeleted){
                     $msg='Delete successfully';
@@ -89,7 +93,7 @@ class CategoryController extends Controller
                     $msg='Delete failed';
                 }
             }else{
-                $msg = 'This category is not exist';
+                $msg = 'This category is not exist or cannot delete this category';
             }
         }else{
             $msg = 'This link is not exist';
